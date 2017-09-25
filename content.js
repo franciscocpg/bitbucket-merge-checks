@@ -4,32 +4,38 @@
 
 console.log("bitbucket-merge-checks - started load!");
 
+function disableMergeButton(button) {
+  button.setAttribute("title", "Select ");
+  button.setAttribute("disabled", "false");
+  button.setAttribute("style", "background-color: red;");
+}
+
+function enableMergeButton(button) {
+  button.setAttribute("title", "It's safe to merge");
+  button.setAttribute("style", "background-color: green;");
+  button.removeAttribute("disabled");
+}
+
 function checkMerge() {
   //a contains all the button on the page
-  var a = document.getElementsByTagName('button');
+  var buttons = document.getElementsByTagName('button');
   //the button we care about is the last button on the page which is the merge button
-  var button = a[a.length - 1];
+  var button = buttons[buttons.length - 1];
+  // by default let's disable the merge button. 
+  disableMergeButton(button);
 
   //the value of the choice can be either merge commits or squash
   var mergeStrategy = document.getElementsByClassName("select2-chosen");
-  var mergeStrategyInvalid = mergeStrategy[0] === undefined || mergeStrategy[0].innerHTML !== "Squash";
+  var mergeStrategyValid = mergeStrategy[0] !== undefined && mergeStrategy[0].innerHTML === "Squash";
 
+  // no checklist warnings
   var mergeCheckslist = document.getElementsByClassName("field-value");
-  var mergeCheckslistInvalid = Array.from(mergeCheckslist).filter(element => {
+  var mergeCheckslistValid = Array.from(mergeCheckslist).filter(element => {
     return element.innerHTML.includes('aui-iconfont-warning');
-  }).length > 0;
+  }).length === 0;
 
-  //if it s not squash dont allow to push
-  if (mergeStrategyInvalid || mergeCheckslistInvalid) {
-
-    button.setAttribute("title", "Squash your merges");
-    button.setAttribute("disabled", "false");
-    button.setAttribute("style", "background-color: red;");
-
-  } else {
-    button.setAttribute("title", "It's safe to merge");
-    button.setAttribute("style", "background-color: green;");
-    button.removeAttribute("disabled");
+  if (mergeStrategyValid && mergeCheckslistValid) {
+    enableMergeButton(button);
   }
 }
 
