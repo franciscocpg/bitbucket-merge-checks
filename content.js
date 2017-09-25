@@ -11,10 +11,16 @@ function checkMerge() {
   var button = a[a.length - 1];
 
   //the value of the choice can be either merge commits or squash
-  var value = document.getElementsByClassName("select2-chosen");
+  var mergeStrategy = document.getElementsByClassName("select2-chosen");
+  var mergeStrategyInvalid = mergeStrategy[0] === undefined || mergeStrategy[0].innerHTML !== "Squash";
+
+  var mergeCheckslist = document.getElementsByClassName("field-value");
+  var mergeCheckslistInvalid = Array.from(mergeCheckslist).filter(element => {
+    return element.innerHTML.includes('aui-iconfont-warning');
+  }).length > 0;
 
   //if it s not squash dont allow to push
-  if (value[0] === undefined || value[0].innerHTML !== "Squash") {
+  if (mergeStrategyInvalid || mergeCheckslistInvalid) {
 
     button.setAttribute("title", "Squash your merges");
     button.setAttribute("disabled", "false");
@@ -30,7 +36,6 @@ function checkMerge() {
 function checkMergeInterval() {
   //sets timeout since we are loading everything with AJAX so we wait a bit that everything loads
   setTimeout(checkMerge, 250);
-
 }
 
 document.getElementById("fulfill-pullrequest").onclick = function () {
