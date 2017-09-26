@@ -5,7 +5,7 @@
 console.log("bitbucket-merge-checks - started load!");
 
 function disableMergeButton(button) {
-  button.setAttribute("title", "Select ");
+  button.setAttribute("title", "Select Squash Merge strategy and check Merge checklist");
   button.setAttribute("disabled", "false");
   button.setAttribute("style", "background-color: red;");
 }
