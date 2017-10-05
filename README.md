@@ -1,6 +1,6 @@
 # bitbucket-merge-checks
 Bitbucket merge checks is a chrome extension used to check bitbucket merge checks and force squash merge pull requests
-(which is available only for premium users).
+(both are available only for premium users).
 
 It changes the color of `Merge` button to red and does not allow to click it until all merge checks are green and user
 has choosen `Squash` merge.
